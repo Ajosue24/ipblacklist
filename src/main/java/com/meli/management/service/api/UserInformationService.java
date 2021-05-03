@@ -4,5 +4,5 @@ import com.meli.management.model.dto.UserInformationDTO;
 
 public interface UserInformationService {
 
-    UserInformationDTO getUserInformation(String ip);
+    UserInformationDTO getUserInformation(String ip) throws Exception;
 }

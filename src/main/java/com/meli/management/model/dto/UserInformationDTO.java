@@ -23,7 +23,7 @@ public class UserInformationDTO implements Serializable {
     String countryIso;
     Set<String> currencyName;
     String currencyIsCompareWith;
-    Map<String,BigDecimal> currencyValue;
+    Map<String,Double> currencyValue;
 
 
 

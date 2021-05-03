@@ -1,0 +1,3 @@
+INSERT INTO public.col_blacklist_ip (created_at, enabled, is_deleted, updated_at, ip_address) VALUES (CURRENT_TIMESTAMP, true, null, null, '186.80.52.20');
+INSERT INTO public.col_blacklist_ip (created_at, enabled, is_deleted, updated_at, ip_address) VALUES (CURRENT_TIMESTAMP, true, null, null, '186.80.52.21');
+INSERT INTO public.col_blacklist_ip (created_at, enabled, is_deleted, updated_at, ip_address) VALUES (CURRENT_TIMESTAMP, true, null, null, '186.80.52.22');

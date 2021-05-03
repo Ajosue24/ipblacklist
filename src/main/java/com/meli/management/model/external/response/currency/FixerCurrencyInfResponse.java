@@ -24,6 +24,6 @@ public class FixerCurrencyInfResponse implements Serializable {
     private Integer timestamp;
     private String base;
     private String date;
-    private Map<String, BigDecimal> rates;
+    private Map<String, Double> rates;
 }
 

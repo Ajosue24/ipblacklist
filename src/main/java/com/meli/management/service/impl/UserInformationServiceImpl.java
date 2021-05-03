@@ -37,37 +37,38 @@ public class UserInformationServiceImpl implements UserInformationService {
     private BlackListIpService blackListIpService;
 
     @Override
-    public UserInformationDTO getUserInformation(String ip) {
-        if(!blackListIpService.isIpInBlackList(ip)){
-/*        String countryName;
-        String countryIso;
-        String currencyName;
-        String currencyIsCompareWith;
-        BigDecimal currencyValue;*/
-            UserInformationDTO userInformationDTO = new UserInformationDTO();
-            Optional<IpToCountryResponse> ipToCountryResponse = ipInformationService.callIpToCountryApi(ip);
-            Optional<String> code = ipToCountryResponse.stream().map(IpToCountryResponse::getCountry_code).filter(Objects::nonNull).findAny();
-            Optional<RestCountriesResponse> restCountriesResponse = Optional.empty();
-            Optional<FixerCurrencyInfResponse> fixerCurrencyInfResponse = currencyService.callCurrencyInf();
-            if(ipToCountryResponse.isPresent()&&code.isPresent()){
-                restCountriesResponse  = countryService.callRestCountry(code.get());
+    public UserInformationDTO getUserInformation(String ip) throws BusinessException,Exception{
+        LOGGER.info("Getting user inf");
+            if(!blackListIpService.isIpInBlackList(ip)){
+                try {
+                UserInformationDTO userInformationDTO = new UserInformationDTO();
+                Optional<IpToCountryResponse> ipToCountryResponse = ipInformationService.callIpToCountryApi(ip);
+                Optional<String> code = ipToCountryResponse.stream().map(IpToCountryResponse::getCountry_code).filter(Objects::nonNull).findAny();
+                Optional<RestCountriesResponse> restCountriesResponse = Optional.empty();
+                Optional<FixerCurrencyInfResponse> fixerCurrencyInfResponse = currencyService.callCurrencyInf();
+                if(ipToCountryResponse.isPresent()&&code.isPresent()){
+                    restCountriesResponse  = countryService.callRestCountry(code.get());
+                }
+                if(restCountriesResponse.isPresent()&&fixerCurrencyInfResponse.isPresent()){
+                    userInformationDTO.setCountryName(restCountriesResponse.get().getName());
+                    userInformationDTO.setCountryIso(restCountriesResponse.get().getAlpha3Code());
+                    userInformationDTO.setCurrencyName(restCountriesResponse.get().getCurrencies().stream().map(Currency::getCode).collect(Collectors.toSet()));
+                    userInformationDTO.setCurrencyValue(fixerCurrencyInfResponse.get().getRates().entrySet().stream()
+                            .filter(x -> userInformationDTO.getCurrencyName().stream().anyMatch(name->name.equals(x.getKey())))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+                    userInformationDTO.setCurrencyIsCompareWith(fixerCurrencyInfResponse.get().getBase());
+                return userInformationDTO;
+                }else{
+                    LOGGER.error("Error Bussiness rules user");
+                    throw new BusinessException("User data doesn't exist");
+                }
+            }catch (Exception e){
+                    LOGGER.error("Error getting user",e);
+                    throw e;
             }
-            if(restCountriesResponse.isPresent()&&fixerCurrencyInfResponse.isPresent()){
-                Map<String,BigDecimal> map=new HashMap<>();
-                userInformationDTO.setCountryName(restCountriesResponse.get().getName());
-                userInformationDTO.setCountryIso(restCountriesResponse.get().getAlpha3Code());
-                userInformationDTO.setCurrencyName(restCountriesResponse.get().getCurrencies().stream().map(Currency::getName).collect(Collectors.toSet()));
-                userInformationDTO.setCurrencyIsCompareWith(fixerCurrencyInfResponse.get().getBase());
-                /**
-                 * TODO: map currency
-                 */
-            }else{
-                throw new BusinessException("User data doesn't exist");
+        }else {
+                LOGGER.error("User ip is in blacklist");
+                throw new BusinessException("Blacklist");
             }
-
-        }
-
-
-        return null;
     }
 }
