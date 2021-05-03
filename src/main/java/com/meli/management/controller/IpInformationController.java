@@ -37,11 +37,11 @@ public class IpInformationController {
                 throw new BusinessException("Invalid Ip");
             }
             standardJsonResponse = new StandardJsonResponse().onlySuccessMessageAndData(Constants.SUCCESS, userInformationService.getUserInformation(ip));
+            if (standardJsonResponse.getData() == null) {
+                standardJsonResponse.setMessage(Constants.MESSAGE_IP_DOES_NOT_EXIST);
+                return new ResponseEntity<>(standardJsonResponse, HttpStatus.OK);
+            }
             return new ResponseEntity<>(standardJsonResponse, HttpStatus.OK);
-        } catch (BusinessException e) {
-            LOGGER.error(Constants.MESSAGE_IP_DOES_NOT_EXIST,e);
-            standardJsonResponse = new StandardJsonResponse<Boolean>().onlyErrorBadRequest(e.getMessage(), null);
-            return new ResponseEntity<>(standardJsonResponse, HttpStatus.BAD_REQUEST);
         }
         catch (Exception e) {
             LOGGER.error("error in information",e);

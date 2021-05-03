@@ -37,11 +37,12 @@ public class UserInformationServiceImpl implements UserInformationService {
     private BlackListIpService blackListIpService;
 
     @Override
-    public UserInformationDTO getUserInformation(String ip) throws BusinessException,Exception{
+    public UserInformationDTO getUserInformation(String ip) throws BusinessException{
+        UserInformationDTO userInformationDTO = null;
         LOGGER.info("Getting user inf");
             if(!blackListIpService.isIpInBlackList(ip)){
                 try {
-                UserInformationDTO userInformationDTO = new UserInformationDTO();
+                userInformationDTO = new UserInformationDTO();
                 Optional<IpToCountryResponse> ipToCountryResponse = ipInformationService.callIpToCountryApi(ip);
                 Optional<String> code = ipToCountryResponse.stream().map(IpToCountryResponse::getCountry_code).filter(Objects::nonNull).findAny();
                 Optional<RestCountriesResponse> restCountriesResponse = Optional.empty();
@@ -53,22 +54,23 @@ public class UserInformationServiceImpl implements UserInformationService {
                     userInformationDTO.setCountryName(restCountriesResponse.get().getName());
                     userInformationDTO.setCountryIso(restCountriesResponse.get().getAlpha3Code());
                     userInformationDTO.setCurrencyName(restCountriesResponse.get().getCurrencies().stream().map(Currency::getCode).collect(Collectors.toSet()));
+                    UserInformationDTO finalUserInformationDTO = userInformationDTO;
                     userInformationDTO.setCurrencyValue(fixerCurrencyInfResponse.get().getRates().entrySet().stream()
-                            .filter(x -> userInformationDTO.getCurrencyName().stream().anyMatch(name->name.equals(x.getKey())))
+                            .filter(x -> finalUserInformationDTO.getCurrencyName().stream().anyMatch(name->name.equals(x.getKey())))
                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
                     userInformationDTO.setCurrencyIsCompareWith(fixerCurrencyInfResponse.get().getBase());
                 return userInformationDTO;
                 }else{
                     LOGGER.error("Error Bussiness rules user");
-                    throw new BusinessException("User data doesn't exist");
+                   return userInformationDTO;
                 }
             }catch (Exception e){
                     LOGGER.error("Error getting user",e);
-                    throw e;
+                   return userInformationDTO;
             }
         }else {
                 LOGGER.error("User ip is in blacklist");
-                throw new BusinessException("Blacklist");
+                return userInformationDTO;
             }
     }
 }
