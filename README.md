@@ -6,7 +6,7 @@ INF: Para la solucion se plantearon y se ejecutaron los siguientes elementos
 * Redis para almacenar request y response a apis externas 
 * BD H2 para capturar la blacklist
 * Swagger para la documentacion 
-* Moshi para maejo de json
+* Moshi para manejo de json
 * Anotaciones de Scheduling parametrizable para reinicio de inf capturada en redis
 * Lombok para facil manejo de la data
 * Guava para validar direcciones IP
