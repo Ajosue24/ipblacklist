@@ -40,18 +40,18 @@ public class CurrencyServiceImpl implements CurrencyService {
         Optional<FixerCurrencyInfResponse> fixerCurrencyInfResponse = Optional.empty();
         try {
             Object obj = redisCommunicationService.getInRedisOnlyMono(Constants.CURRENCY_KEY_REDIS, LocalDate.now().toString());
-            if(obj!=null){
-                return Optional.ofNullable(ObjectMapperUtils.map(obj,new FixerCurrencyInfResponse()));
+            if (obj != null) {
+                return Optional.ofNullable(ObjectMapperUtils.map(obj, new FixerCurrencyInfResponse()));
             }
-            fixerCurrencyInfResponse = Optional.ofNullable(petitioner.getForEntity(ipManagementComponent.getExternalApiCurrencyInfUrl(),null, OnlyAccessKeyRequest.class, new OnlyAccessKeyRequest(ipManagementComponent.getExternalApiCurrencyInfAccessKey()), FixerCurrencyInfResponse.class, HttpMethod.GET));
-            if(fixerCurrencyInfResponse.isPresent()){
-                redisCommunicationService.saveInRedisThingsOnlyMono(Constants.CURRENCY_KEY_REDIS,LocalDate.now().toString(),fixerCurrencyInfResponse.get());
+            fixerCurrencyInfResponse = Optional.ofNullable(petitioner.getForEntity(ipManagementComponent.getExternalApiCurrencyInfUrl(), null, OnlyAccessKeyRequest.class, new OnlyAccessKeyRequest(ipManagementComponent.getExternalApiCurrencyInfAccessKey()), FixerCurrencyInfResponse.class, HttpMethod.GET));
+            if (fixerCurrencyInfResponse.isPresent()) {
+                redisCommunicationService.saveInRedisThingsOnlyMono(Constants.CURRENCY_KEY_REDIS, LocalDate.now().toString(), fixerCurrencyInfResponse.get());
             }
         } catch (IOException | PetitionerException e) {
             LOGGER.error("Error getting currency", e);
         } catch (Exception e) {
             LOGGER.error("callCurrencyInf ", e);
-            redisCommunicationService.deleteRedisByKeyAndId(Constants.CURRENCY_KEY_REDIS,LocalDate.now().toString());
+            redisCommunicationService.deleteRedisByKeyAndId(Constants.CURRENCY_KEY_REDIS, LocalDate.now().toString());
         }
         return fixerCurrencyInfResponse;
     }

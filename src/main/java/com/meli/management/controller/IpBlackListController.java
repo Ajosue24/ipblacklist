@@ -3,7 +3,6 @@ package com.meli.management.controller;
 import com.google.common.net.InetAddresses;
 import com.meli.management.commons.StandardJsonResponse;
 import com.meli.management.exception.BusinessException;
-import com.meli.management.repository.impl.RedisCommunicationServiceImpl;
 import com.meli.management.service.api.BlackListIpService;
 import com.meli.management.util.Constants;
 import com.meli.management.util.Util;
@@ -41,7 +40,7 @@ public class IpBlackListController {
             standardJsonResponse = new StandardJsonResponse().onlySuccessMessageAndData(Constants.SUCCESS, blackListIpService.isIpInBlackList(ip));
             return new ResponseEntity<>(standardJsonResponse, HttpStatus.OK);
         } catch (Exception e) {
-            LOGGER.error("error in blacklist",e);
+            LOGGER.error("error in blacklist", e);
             standardJsonResponse = new StandardJsonResponse<Boolean>().onlyErrorBadRequest(e.getMessage(), null);
             return new ResponseEntity<>(standardJsonResponse, HttpStatus.BAD_REQUEST);
         }

@@ -1,6 +1,7 @@
 package com.meli.management.model.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "col_blacklist_ip")
 public class BlackListIp extends BaseEntity{
 

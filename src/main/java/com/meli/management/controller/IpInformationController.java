@@ -27,7 +27,7 @@ public class IpInformationController {
     private UserInformationService userInformationService;
 
     @GetMapping()
-    public ResponseEntity<?> validateIpAddress(@RequestParam(value = "ip", required = false) String ip, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<StandardJsonResponse> validateIpAddress(@RequestParam(value = "ip", required = false) String ip, HttpServletRequest httpServletRequest) {
         StandardJsonResponse standardJsonResponse;
         try {
             if (ip == null) {

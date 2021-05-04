@@ -1,0 +1,1 @@
+java $JAVA_OPTS -DlogPath="./logs/" -jar management-0.0.1-SNAPSHOT.jar

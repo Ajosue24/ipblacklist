@@ -10,4 +10,6 @@ public interface RedisCommunicationService {
 
     void deleteRedisByKeyAndId(String keyInRedis,String hashKeyInRedis);
 
+    void deleteAll();
+
 }

@@ -9,6 +9,9 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 @RefreshScope
 public class IpManagementComponent {
 
+
+    public static final String CRON_RESET_REDIS = "${internal.crontab-reset}";
+
     @Value("${external-api.geo-ip-inf.url}")
     @Getter
     private String externalApiGeoIpInfUrl;
