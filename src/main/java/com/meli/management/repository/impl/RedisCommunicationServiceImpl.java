@@ -5,7 +5,7 @@ import com.meli.management.repository.api.RedisCommunicationService;
 import com.meli.management.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,17 +29,23 @@ public class RedisCommunicationServiceImpl implements RedisCommunicationService 
         try {
             redisTemplate.opsForHash().put(keyInRedis, hashKeyInRedis, objectToSave);
             LOGGER.info("Obj saved in redis");
+        } catch (RedisConnectionFailureException e) {
+            deleteRedisByKeyAndId(keyInRedis, hashKeyInRedis);
+            LOGGER.error("Redis off", e);
         } catch (Exception e) {
             deleteRedisByKeyAndId(keyInRedis, hashKeyInRedis);
             LOGGER.error("Can't save obj in redis", e);
         }
 
-
     }
 
     public Object getInRedisOnlyMono(String keyInRedis, String hashKeyInRedis) {
         try {
-           return redisTemplate.opsForHash().get(keyInRedis,hashKeyInRedis);
+            return redisTemplate.opsForHash().get(keyInRedis, hashKeyInRedis);
+        } catch (RedisConnectionFailureException e) {
+            deleteRedisByKeyAndId(keyInRedis, hashKeyInRedis);
+            LOGGER.error("getInRedisOnlyMono RedisConnectionFailureException", e);
+            return null;
         } catch (Exception e) {
             LOGGER.error("Can't get obj from redis", e);
             deleteRedisByKeyAndId(keyInRedis, hashKeyInRedis);
@@ -53,9 +59,12 @@ public class RedisCommunicationServiceImpl implements RedisCommunicationService 
 
             redisTemplate.opsForHash().delete(keyInRedis, hashKeyInRedis);
             LOGGER.info("deleteRedisByKeyAndId + ".concat(keyInRedis).concat(hashKeyInRedis));
-        }catch (Exception e){
-                LOGGER.error("cannot delete ".concat(keyInRedis), e);
-            }
+        } catch (RedisConnectionFailureException e) {
+            deleteRedisByKeyAndId(keyInRedis, hashKeyInRedis);
+            LOGGER.error("deleteRedisByKeyAndId RedisConnectionFailureException", e);
+        } catch (Exception e) {
+            LOGGER.error("cannot delete ".concat(keyInRedis), e);
+        }
     }
 
     /**
@@ -67,20 +76,13 @@ public class RedisCommunicationServiceImpl implements RedisCommunicationService 
             redisTemplate.delete(Constants.COUNTRY_KEY_REDIS);
             redisTemplate.delete(Constants.COUNTRY_KEY_REDIS);
             redisTemplate.delete(Constants.IP_KEY_REDIS);
-        }catch (Exception e){
+        } catch (RedisConnectionFailureException e) {
+            LOGGER.error("RedisConnectionFailureException", e);
+        } catch (Exception e) {
             LOGGER.error("cannot deleteAll ", e);
         }
 
     }
-
-
-
-
-
-
-
-
-
 
 
 }

@@ -1,7 +1,5 @@
 package com.meli.management.repository.api;
 
-import reactor.core.publisher.Mono;
-
 public interface RedisCommunicationService {
 
      void saveInRedisThingsOnlyMono(String keyInRedis,String hashKeyInRedis,Object objectToSave);

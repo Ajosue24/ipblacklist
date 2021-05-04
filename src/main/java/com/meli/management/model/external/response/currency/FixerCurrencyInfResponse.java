@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Map;
 
 @Data
