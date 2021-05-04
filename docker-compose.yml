@@ -1,0 +1,40 @@
+version: "3"
+services:
+
+  ipblacklist:
+    container_name: ipblacklist
+    image: ipblacklist:latest
+    restart: on-failure
+    ports:
+      - "9090:9090"
+    depends_on:
+      - redis
+
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./config/redis.conf:/redis.conf
+    command: [ "redis-server", "/redis.conf" ]
+    restart: on-failure
+    hostname: redis
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+
+
+
+  # Proxies requests to internal services
+  proxy:
+    image: nginx:1.17.10
+    container_name: proxy_temp
+    depends_on:
+      - redis
+      - ipblacklist
+    volumes:
+      - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+

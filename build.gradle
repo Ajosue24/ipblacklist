@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+
 }
 
 group = 'com.meli'
@@ -45,19 +46,8 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.guava/guava
     implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
     // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
-// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
+    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.8'
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
