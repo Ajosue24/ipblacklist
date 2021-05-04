@@ -26,14 +26,17 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceImpl.class);
 
-    @Autowired
-    private PetitionerService petitioner;
+    private final PetitionerService petitioner;
 
-    @Autowired
-    private RedisCommunicationService redisCommunicationService;
+    private final RedisCommunicationService redisCommunicationService;
 
-    @Autowired
-    private IpManagementComponent ipManagementComponent;
+    private final IpManagementComponent ipManagementComponent;
+
+    public CurrencyServiceImpl(PetitionerService petitioner, RedisCommunicationService redisCommunicationService, IpManagementComponent ipManagementComponent) {
+        this.petitioner = petitioner;
+        this.redisCommunicationService = redisCommunicationService;
+        this.ipManagementComponent = ipManagementComponent;
+    }
 
     @Override
     public Optional<FixerCurrencyInfResponse> callCurrencyInf() {

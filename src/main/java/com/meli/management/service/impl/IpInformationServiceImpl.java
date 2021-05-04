@@ -26,14 +26,17 @@ public class IpInformationServiceImpl implements IpInformationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IpInformationServiceImpl.class);
 
-    @Autowired
-    private PetitionerService petitioner;
+    private final PetitionerService petitioner;
 
-    @Autowired
-    private RedisCommunicationService redisCommunicationService;
+    private final RedisCommunicationService redisCommunicationService;
 
-    @Autowired
-    private IpManagementComponent ipManagementComponent;
+    private final IpManagementComponent ipManagementComponent;
+
+    public IpInformationServiceImpl(PetitionerService petitioner, RedisCommunicationService redisCommunicationService, IpManagementComponent ipManagementComponent) {
+        this.petitioner = petitioner;
+        this.redisCommunicationService = redisCommunicationService;
+        this.ipManagementComponent = ipManagementComponent;
+    }
 
 
     @Override

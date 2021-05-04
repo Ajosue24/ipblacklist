@@ -25,14 +25,17 @@ public class CountryServiceImpl implements CountryService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CountryServiceImpl.class);
 
-    @Autowired
-    private PetitionerService petitioner;
+    private final PetitionerService petitioner;
 
-    @Autowired
-    private RedisCommunicationService redisCommunicationService;
+    private final RedisCommunicationService redisCommunicationService;
 
-    @Autowired
-    private IpManagementComponent ipManagementComponent;
+    private final IpManagementComponent ipManagementComponent;
+
+    public CountryServiceImpl(PetitionerService petitioner, RedisCommunicationService redisCommunicationService, IpManagementComponent ipManagementComponent) {
+        this.petitioner = petitioner;
+        this.redisCommunicationService = redisCommunicationService;
+        this.ipManagementComponent = ipManagementComponent;
+    }
 
 
     @Override

@@ -23,16 +23,19 @@ import java.util.List;
 @Transactional
 public class PetitionerServiceImpl implements PetitionerService {
 
-        @Autowired
-        private WebClient getWebClientBuilderBuild;
+        private final WebClient getWebClientBuilderBuild;
 
-        @Autowired
-        private Moshi getMoshiBuilder;
+        private final Moshi getMoshiBuilder;
 
         private static final Logger LOGGER = LoggerFactory.getLogger(PetitionerServiceImpl.class);
 
+    public PetitionerServiceImpl(WebClient getWebClientBuilderBuild, Moshi getMoshiBuilder) {
+        this.getWebClientBuilderBuild = getWebClientBuilderBuild;
+        this.getMoshiBuilder = getMoshiBuilder;
+    }
 
-        public <T,U> T getForEntity(String url, List<String> urlParam, Class<U> requestType, U request, Class<T> responseType,HttpMethod httpMethod)
+
+    public <T,U> T getForEntity(String url, List<String> urlParam, Class<U> requestType, U request, Class<T> responseType,HttpMethod httpMethod)
                 throws RestClientResponseException,PetitionerException{
 
             T finalObject;

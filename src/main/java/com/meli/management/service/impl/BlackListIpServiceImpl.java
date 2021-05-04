@@ -15,8 +15,11 @@ public class BlackListIpServiceImpl implements BlackListIpService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BlackListIpServiceImpl.class);
 
-    @Autowired
-    private BlackListIpRepository blackListIpRepository;
+    private final BlackListIpRepository blackListIpRepository;
+
+    public BlackListIpServiceImpl(BlackListIpRepository blackListIpRepository) {
+        this.blackListIpRepository = blackListIpRepository;
+    }
 
     @Override
     public Boolean isIpInBlackList(String ip) {
