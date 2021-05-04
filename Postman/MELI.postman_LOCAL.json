@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "bd37707f-a29d-4c41-829e-4693045e8484",
+		"name": "MELI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "UserInformation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/information?ip=23.235.60.92",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"information"
+					],
+					"query": [
+						{
+							"key": "ip",
+							"value": "23.235.60.92"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserInformationInvalidIp",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/information?ip=23.235.60.92a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"information"
+					],
+					"query": [
+						{
+							"key": "ip",
+							"value": "23.235.60.92a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserInformationIpBlackList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/information?ip=186.80.52.20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"information"
+					],
+					"query": [
+						{
+							"key": "ip",
+							"value": "186.80.52.20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "IPInBlackList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/blacklist?ip=186.80.52.20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"blacklist"
+					],
+					"query": [
+						{
+							"key": "ip",
+							"value": "186.80.52.20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "IPDoesNotInBlackList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/blacklist?ip=186.80.52.15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"blacklist"
+					],
+					"query": [
+						{
+							"key": "ip",
+							"value": "186.80.52.15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "IPInBlackListInvalidIp",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/blacklist?ip=186.80.52.15a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"blacklist"
+					],
+					"query": [
+						{
+							"key": "ip",
+							"value": "186.80.52.15a"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
