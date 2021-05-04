@@ -2,16 +2,17 @@
 Challenge technical MELI
 
 INF: Para la solucion se plantearon y se ejecutaron los siguientes elementos 
-  Redis para almacenar request y response a apis externas 
-  BD H2 para capturar la blacklist
-  Swagger para la documentacion 
-  Moshi para maejo de json
-  Anotaciones de Scheduling parametrizable para reinicio de inf capturada en redis
-  Lombok para facil manejo de la data
-  Guava para validar direcciones IP
-  Uso de WebClient(webflux) para consumir apis externas 
-  Docker para despliegue de la aplicacion 
-    nginx para redireccionar las peticiones
+
+Redis para almacenar request y response a apis externas 
+BD H2 para capturar la blacklist
+Swagger para la documentacion 
+Moshi para maejo de json
+Anotaciones de Scheduling parametrizable para reinicio de inf capturada en redis
+Lombok para facil manejo de la data
+Guava para validar direcciones IP
+Uso de WebClient(webflux) para consumir apis externas 
+Docker para despliegue de la aplicacion 
+ nginx para redireccionar las peticiones
    
     
   Se anexa carpeta postman para importar los recursos que se usaron para pruebas en el desarrollo
