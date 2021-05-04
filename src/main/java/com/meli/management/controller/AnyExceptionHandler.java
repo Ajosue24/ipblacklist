@@ -1,6 +1,8 @@
-package com.meli.management.exception;
+package com.meli.management.controller;
 
 import com.meli.management.commons.StandardJsonResponse;
+import com.meli.management.exception.BusinessException;
+import com.meli.management.exception.PetitionerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

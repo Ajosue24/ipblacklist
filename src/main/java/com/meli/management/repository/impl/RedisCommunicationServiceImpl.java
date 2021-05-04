@@ -18,8 +18,11 @@ public class RedisCommunicationServiceImpl implements RedisCommunicationService 
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisCommunicationServiceImpl.class);
 
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
+
+    public RedisCommunicationServiceImpl(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
 
     public void saveInRedisThingsOnlyMono(String keyInRedis, String hashKeyInRedis, Object objectToSave) {
@@ -46,8 +49,13 @@ public class RedisCommunicationServiceImpl implements RedisCommunicationService 
 
 
     public void deleteRedisByKeyAndId(String keyInRedis, String hashKeyInRedis) {
-         redisTemplate.opsForHash().delete(keyInRedis,hashKeyInRedis);
-         LOGGER.info("deleteRedisByKeyAndId + ".concat(keyInRedis).concat(hashKeyInRedis));
+        try {
+
+            redisTemplate.opsForHash().delete(keyInRedis, hashKeyInRedis);
+            LOGGER.info("deleteRedisByKeyAndId + ".concat(keyInRedis).concat(hashKeyInRedis));
+        }catch (Exception e){
+                LOGGER.error("cannot delete ".concat(keyInRedis), e);
+            }
     }
 
     /**
@@ -55,9 +63,14 @@ public class RedisCommunicationServiceImpl implements RedisCommunicationService 
      */
     @Scheduled(cron = IpManagementComponent.CRON_RESET_REDIS)
     public void deleteAll() {
-        redisTemplate.delete(Constants.COUNTRY_KEY_REDIS);
-        redisTemplate.delete(Constants.COUNTRY_KEY_REDIS);
-        redisTemplate.delete(Constants.IP_KEY_REDIS);
+        try {
+            redisTemplate.delete(Constants.COUNTRY_KEY_REDIS);
+            redisTemplate.delete(Constants.COUNTRY_KEY_REDIS);
+            redisTemplate.delete(Constants.IP_KEY_REDIS);
+        }catch (Exception e){
+            LOGGER.error("cannot deleteAll ", e);
+        }
+
     }
 
 
